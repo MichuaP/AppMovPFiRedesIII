@@ -54,6 +54,14 @@ class RegisterActivity : AppCompatActivity() {
                 correo = correo,
                 contrasena = password
             )
+
+            // DropBox?
+            //if (userXmlManager.saveUser(nombre, apellidoPaterno, apellidoMaterno, alias, correo, password)) {
+            //    Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
+            //    finish()
+            //} else {
+            //    Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show()
+            //}
         }
     }
 
