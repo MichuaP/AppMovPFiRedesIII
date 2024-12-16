@@ -99,6 +99,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_logout -> {
+                //Click en cerrar sesión, borramos info de sharedPreferences
+                SaveSharedPreference.clearAll(this)
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
                 true

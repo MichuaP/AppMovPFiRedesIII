@@ -1,17 +1,13 @@
 package com.example.noticias
 
-import android.app.Activity
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import javax.crypto.Cipher
-import javax.crypto.SecretKey
-import javax.crypto.spec.SecretKeySpec
-import android.util.Base64
 import android.util.Log
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -21,11 +17,18 @@ import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var userXmlManager: UserXmlManager
-    private val ENCRYPTION_KEYC = "35224252703265875843711068151088"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        if(SaveSharedPreference.getAlias(this).length == 0) {
+            // Se queda en login
+        }
+        else { // se va a inicio
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            finish()
+        }
 
         userXmlManager = UserXmlManager(this)
 
@@ -43,23 +46,10 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            Log.d("LOGINP", "Correo y contraseña"+username+" "+password)
-
-
             loginUsuario(
                 correo = username,
                 contrasena = password
             )
-
-            //Lo de dropbox?
-//            if (userXmlManager.validateUser(username, password)) {
-//                val intent = Intent(this, MainActivity::class.java)
-//                intent.putExtra("username", username)
-//                startActivity(intent)
-//                finish()
-//            } else {
-//                Toast.makeText(this, "Credenciales inválidas", Toast.LENGTH_SHORT).show()
-//            }
         }
 
         tvRegister.setOnClickListener {
@@ -98,19 +88,30 @@ class LoginActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (!it.isSuccessful) {
+                        runOnUiThread {
+                            Toast.makeText(this@LoginActivity, "Error: ${it.code}", Toast.LENGTH_SHORT).show()
+                        }
+                        return
+                    }
+
+                    val responseData = it.body?.string()
+                    if (!responseData.isNullOrEmpty()) {
+                        val jsonResponse = JSONObject(responseData)
+                        val usuario = jsonResponse.getJSONObject("usuario") // Accede al objeto "usuario"
+
+                        Log.d("LOGINP", "Respuesta"+jsonResponse)
+
+                        // Guardar datos en SharedPreferences
+                        SaveSharedPreference.setIdUsuario(this@LoginActivity, usuario.getInt("IdUser"))
+                        SaveSharedPreference.setAlias(this@LoginActivity, usuario.getString("Alias"))
 
                         runOnUiThread {
-                            Toast.makeText(this@LoginActivity, "Error en el inicio de sesión: ${it.code}", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                            finish()
                         }
                     } else {
-                        // Si la respuesta es exitosa
-                        val responseData = it.body?.string()
                         runOnUiThread {
-                            // Cambiar a la MainActivity
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            intent.putExtra("username", correo)
-                            startActivity(intent)
-                            finish()
+                            Toast.makeText(this@LoginActivity, "Respuesta vacía del servidor.", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
