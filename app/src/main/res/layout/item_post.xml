@@ -45,6 +45,27 @@
             android:layout_marginTop="8dp"
             android:textColor="@android:color/darker_gray"
             android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tvCountry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tvLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp" />
 
     </LinearLayout>
 

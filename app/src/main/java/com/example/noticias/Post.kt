@@ -1,10 +1,9 @@
 package com.example.noticias
 
-
-
 data class Post(
-    val username: String,
-    val title: String,
-    val content: String,
-    val timestamp: Long = System.currentTimeMillis()
+    val titulo: String,
+    val contenido: String,
+    val pais: String,
+    val categoria: String,
+    val idioma: String
 )
