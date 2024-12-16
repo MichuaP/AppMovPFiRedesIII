@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:elevation="4dp"
+    android:layout_marginBottom="16dp"
+    android:layout_gravity="center">
+
+    <!-- Título de la noticia -->
+    <TextView
+        android:id="@+id/news_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:lineSpacingExtra="2dp"
+        android:maxLines="2"
+        android:ellipsize="end"/>
+
+    <!-- Imagen de la noticia -->
+    <ImageView
+        android:id="@+id/news_image"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:scaleType="centerCrop"
+
+        android:layout_gravity="center" />
+
+    <!-- Resumen o abstract de la noticia -->
+    <TextView
+        android:id="@+id/news_abstract"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Abstract"
+        android:textSize="14sp"
+        android:textColor="#14171A"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Fecha de publicación -->
+    <TextView
+        android:id="@+id/news_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Published date"
+        android:textSize="12sp"
+        android:textColor="#657786"
+        android:layout_marginTop="4dp" />
+
+</LinearLayout>
