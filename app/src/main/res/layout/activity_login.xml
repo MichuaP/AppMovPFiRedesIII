@@ -3,26 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:backgroundTint="@color/white"
+    android:background="@color/white"
     android:padding="16dp">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/favicon"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        />
 
     <EditText
         android:id="@+id/etUsername"
+        android:layout_marginTop="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="correo" />
+        android:hint="Email" />
 
     <EditText
         android:id="@+id/etPassword"
+        android:layout_marginVertical="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Contraseña"
+        android:hint="Password"
         android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Iniciar Sesión" />
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/white"
+        android:text="Log in" />
 
     <TextView
         android:id="@+id/tvRegister"
@@ -30,6 +44,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="16dp"
-        android:text="¿No tienes cuenta? Regístrate" />
+        android:text="New in City Wire News? Sign up" />
 
 </LinearLayout>
