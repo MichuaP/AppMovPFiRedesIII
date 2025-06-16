@@ -20,6 +20,8 @@
         android:layout_marginTop="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:theme="@style/Theme.AppCompat.Light"
         android:hint="Email" />
 
     <EditText
@@ -27,6 +29,8 @@
         android:layout_marginVertical="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:theme="@style/Theme.AppCompat.Light"
         android:hint="Password"
         android:inputType="textPassword" />
 
@@ -43,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textColor="@color/black"
         android:padding="16dp"
         android:text="New in City Wire News? Sign up" />
 

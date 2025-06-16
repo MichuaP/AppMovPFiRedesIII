@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Imagen de fondo -->
+    <item>
+        <bitmap
+            android:src="@drawable/arts"
+            android:tileMode="clamp"
+            android:gravity="top|left" />
+    </item>
+    <item>
+        <shape>
+            <solid android:color="#60000000" />
+        </shape>
+    </item>
+
+</layer-list>

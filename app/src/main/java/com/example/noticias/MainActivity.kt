@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -30,18 +33,13 @@ class MainActivity : AppCompatActivity() {
         // Obtener el username del intent
         currentUsername = intent.getStringExtra("username") ?: ""
 
-
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
-
-
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
 
         swipeRefreshLayout.setOnRefreshListener {
             loadNews() // Función para cargar las noticias
         }
-
         // Cargar las noticias al iniciar
         loadNews()
     }
@@ -56,19 +54,14 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     // Log para inspeccionar el cuerpo completo de la respuesta
                     Log.d("NYT API", "Response Body: ${response.body()}")
-
                     // Log para imprimir el JSON crudo de la respuesta si es necesario
                     Log.d("NYT API Raw", "Raw Response: ${response.raw()}")
-
                     // Log para verificar el estado HTTP
                     Log.d("NYT API", "HTTP Status Code: ${response.code()}")
-
                     // Obtener la lista de noticias desde la respuesta
                     val newsList = response.body()?.results ?: emptyList()
-
                     // Log para inspeccionar específicamente la lista de noticias
                     Log.d("NYT API", "News List: $newsList")
-
                     // Configurar el adaptador del RecyclerView
                     adapter = NewsAdapter(newsList)
                     recyclerView.adapter = adapter
@@ -87,8 +80,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
