@@ -45,10 +45,7 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            loginUsuario(
-                correo = username,
-                contrasena = password
-            )
+            loginUsuario(correo = username, contrasena = password)
         }
 
         tvRegister.setOnClickListener {
@@ -70,7 +67,8 @@ class LoginActivity : AppCompatActivity() {
 
         // Construir la solicitud POST
         val request = Request.Builder()
-            .url("http://192.168.0.6:3000/loginApp")
+            .url("http://192.168.1.80:3000/login")
+            //.url("https://f02d-187-233-92-78.ngrok-free.app/login")
             .post(requestBody)
             .build()
 
@@ -95,19 +93,37 @@ class LoginActivity : AppCompatActivity() {
 
                     val responseData = it.body?.string()
                     if (!responseData.isNullOrEmpty()) {
-                        val jsonResponse = JSONObject(responseData)
-                        val usuario = jsonResponse.getJSONObject("usuario") // Accede al objeto "usuario"
+                        try{
+                            val jsonResponse = JSONObject(responseData)
 
-                        Log.d("LOGINP", "Respuesta"+jsonResponse)
+                            // Validar si fue exitoso
+                            val success = jsonResponse.optBoolean("success", false)
+                            if (!success) {
+                                runOnUiThread {
+                                    Toast.makeText(this@LoginActivity, "Login fallido", Toast.LENGTH_SHORT).show()
+                                }
+                                return
+                            }
+                            // Extraer solo el usuario
+                            val usuario = jsonResponse.getJSONObject("usuario")
+                            Log.d("LOGINP", "Usuario: $usuario")
 
-                        // Guardar datos en SharedPreferences
-                        SaveSharedPreference.setIdUsuario(this@LoginActivity, usuario.getInt("IdUser"))
-                        SaveSharedPreference.setAlias(this@LoginActivity, usuario.getString("Alias"))
+                            // Guardar datos en SharedPreferences
+                            SaveSharedPreference.setIdUsuario(this@LoginActivity, usuario.getInt("IdUser"))
+                            SaveSharedPreference.setAlias(this@LoginActivity, usuario.getString("Alias"))
 
-                        runOnUiThread {
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                            finish()
+                            runOnUiThread {
+                                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                finish()
+                            }
+
+                        }catch (e: Exception) {
+                            e.printStackTrace()
+                            runOnUiThread {
+                                Toast.makeText(this@LoginActivity, "Error al procesar la respuesta.", Toast.LENGTH_SHORT).show()
+                            }
                         }
+
                     } else {
                         runOnUiThread {
                             Toast.makeText(this@LoginActivity, "Respuesta vacía del servidor.", Toast.LENGTH_SHORT).show()

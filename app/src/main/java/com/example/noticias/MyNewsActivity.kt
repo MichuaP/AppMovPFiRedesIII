@@ -41,7 +41,7 @@ class MyNewsActivity : AppCompatActivity(){
         val client = OkHttpClient()
 
         // Construir la URL con el parámetro idUsuario
-        val url = "http://192.168.1.82:3000/myNews?idUsuario=$idUs"
+        val url = "http://192.168.1.80:3000/myNews?idUsuario=$idUs"
 
         // Construir la solicitud
         val request = Request.Builder()

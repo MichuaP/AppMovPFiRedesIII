@@ -25,12 +25,13 @@ import java.time.format.DateTimeFormatter
 
 class PostNewActivity : AppCompatActivity(){
     private lateinit var etTitle: EditText
+    private lateinit var etEstado: EditText
+    private lateinit var etLugar: EditText
     private lateinit var etContent: EditText
     private lateinit var btnPost: Button
     private lateinit var spCategoria: Spinner
     private lateinit var spIdioma: Spinner
     private lateinit var spPais: Spinner
-    private lateinit var spEstado: Spinner
     private var currentUsername: String = ""
     private var currentIdUser: Int = 0
 
@@ -41,10 +42,12 @@ class PostNewActivity : AppCompatActivity(){
         etTitle = findViewById(R.id.etTitle)
         etContent = findViewById(R.id.etContent)
         btnPost = findViewById(R.id.btnPost)
+        etEstado = findViewById(R.id.etEstado)
+        etLugar = findViewById(R.id.etLugar)
 
         //Pais
         spPais = findViewById(R.id.spinner1)
-        val dataPais = listOf("Mexico","USA","España")
+        val dataPais = listOf("México","USA","España")
         val adapter0 = ArrayAdapter(this, android.R.layout.simple_spinner_item, dataPais)
         adapter0.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spPais.adapter = adapter0
@@ -53,25 +56,7 @@ class PostNewActivity : AppCompatActivity(){
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 // Obtener el valor seleccionado
                 val selectedItem = parent.getItemAtPosition(position).toString()
-                Toast.makeText(this@PostNewActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Acción cuando no se selecciona nada
-            }
-        }
-
-        //Estado
-        spEstado = findViewById(R.id.spinner2)
-        val dataEstado = listOf("Arte", "Negocios", "Moda", "Comida","Salud","Hogar","Películas","Política","Ciencia","Deportes","Tecnología","Teatro","Viajes","Mundo")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, dataEstado)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spEstado.adapter = adapter
-
-        spEstado.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                // Obtener el valor seleccionado
-                val selectedItem = parent.getItemAtPosition(position).toString()
-                Toast.makeText(this@PostNewActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@PostNewActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Acción cuando no se selecciona nada
@@ -89,7 +74,7 @@ class PostNewActivity : AppCompatActivity(){
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 // Obtener el valor seleccionado
                 val selectedItem = parent.getItemAtPosition(position).toString()
-                Toast.makeText(this@PostNewActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@PostNewActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -108,7 +93,7 @@ class PostNewActivity : AppCompatActivity(){
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 // Obtener el valor seleccionado
                 val selectedItem = parent.getItemAtPosition(position).toString()
-                Toast.makeText(this@PostNewActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@PostNewActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -126,10 +111,11 @@ class PostNewActivity : AppCompatActivity(){
             val formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
             val title = etTitle.text.toString()
             val content = etContent.text.toString()
-            val pais = spPais.selectedItemPosition+1
-            val estado = spEstado.selectedItemPosition+1
-            val categoria = spCategoria.selectedItemPosition+1
-            val idioma = spIdioma.selectedItemPosition+1
+            val pais = spPais.selectedItem.toString()
+            val estado = etEstado.text.toString()
+            val lugar = etLugar.text.toString()
+            val idCategoria = spCategoria.selectedItemPosition+1
+            val idioma = spIdioma.selectedItem.toString()
             val imagen = "/img/default3.jpg"
 
             if (title.isEmpty() || content.isEmpty()) {
@@ -142,11 +128,12 @@ class PostNewActivity : AppCompatActivity(){
                     put("titulo", title)
                     put("contenido", content)
                     put("fechaPublic", formattedDate)
-                    put("idCategoria", categoria)
-                    put("idIdioma", idioma)
-                    put("idPais", pais)
-                    put("idEstado", estado)
+                    put("idioma", idioma)
+                    put("pais", pais)
+                    put("estado", estado)
+                    put("lugar", lugar)
                     put("idUser", currentIdUser)
+                    put("idCategoria", idCategoria)
                     put("imagen", imagen)
                 }
 
@@ -155,7 +142,7 @@ class PostNewActivity : AppCompatActivity(){
 
                 // Construir la solicitud POST
                 val request = Request.Builder()
-                    .url("http://192.168.1.82:3000/subirNoticia")
+                    .url("http://192.168.1.80:3000/subirNoticia")
                     .post(requestBody)
                     .build()
 
@@ -178,13 +165,14 @@ class PostNewActivity : AppCompatActivity(){
                                 etTitle.setText("")
                                 etContent.setText("")
                                 spPais.setSelection(0)
-                                spEstado.setSelection(0)
+                                etEstado.setText("")
                                 spCategoria.setSelection(0)
                                 spIdioma.setSelection(0)
                             }
                         } else {
                             runOnUiThread {
                                 Toast.makeText(this@PostNewActivity, "Error al subir la noticia", Toast.LENGTH_SHORT).show()
+                                Log.d("POSTS", "ERRORrr")
                             }
                         }
                     }

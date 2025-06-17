@@ -55,13 +55,6 @@ class RegisterActivity : AppCompatActivity() {
                 contrasena = password
             )
 
-            // DropBox?
-            //if (userXmlManager.saveUser(nombre, apellidoPaterno, apellidoMaterno, alias, correo, password)) {
-            //    Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-            //    finish()
-            //} else {
-            //    Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show()
-            //}
         }
     }
 
@@ -69,18 +62,18 @@ class RegisterActivity : AppCompatActivity() {
         val client = OkHttpClient()
 
         val jsonObject = JSONObject().apply {
-            put("nombre", nombre)
-            put("apep", apellidoPaterno)
-            put("apem", apellidoMaterno)
-            put("alias", alias)
             put("correo", correo)
             put("contrasena", contrasena)
+            put("apem", apellidoMaterno)
+            put("apep", apellidoPaterno)
+            put("alias", alias)
+            put("nombre", nombre)
         }
 
         val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
 
         val request = Request.Builder()
-            .url("http://192.168.0.6:3000/signupApp")
+            .url("http://192.168.1.80:3000/signup")
             .post(requestBody)
             .build()
 

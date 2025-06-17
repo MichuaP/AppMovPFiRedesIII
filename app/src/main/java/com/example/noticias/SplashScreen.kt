@@ -13,7 +13,7 @@ class SplashScreen : AppCompatActivity() {
 
         // Espera 2 segundos y luego inicia la MainActivity
         Handler().postDelayed({
-            val intent = Intent(this@SplashScreen, MainActivity::class.java)
+            val intent = Intent(this@SplashScreen, LoginActivity::class.java)
             startActivity(intent)
             finish() // Cierra la actividad de splash para que no pueda regresar a ella
         }, 2000) // 2000 ms = 2 segundos
