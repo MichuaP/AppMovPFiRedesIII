@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Categories"
-        android:textSize="19sp"
+        android:textSize="20sp"
         android:layout_gravity="center"
         android:textStyle="bold"
         android:paddingTop="10dp"
@@ -216,6 +216,23 @@
 
         </LinearLayout>
     </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/titleNews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Discover News"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
+        />
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"

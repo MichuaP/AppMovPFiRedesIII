@@ -22,9 +22,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
+        <activity android:name=".MyNewsActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".PostNewsActivity"/>
+        <activity android:name=".PostNewActivity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 

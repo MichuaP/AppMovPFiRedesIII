@@ -24,8 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
         if(SaveSharedPreference.getAlias(this).length == 0) {
             // Se queda en login
-        }
-        else { // se va a inicio
+        } else { // se va a inicio
             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             finish()
         }

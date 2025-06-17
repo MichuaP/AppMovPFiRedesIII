@@ -6,7 +6,7 @@
         <bitmap
             android:src="@drawable/health"
             android:tileMode="clamp"
-            android:gravity="center" />
+            android:gravity="center_horizontal"/>
     </item>
     <item>
         <shape>

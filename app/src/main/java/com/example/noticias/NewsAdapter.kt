@@ -14,7 +14,8 @@ import com.example.noticias.NewsItem
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class NewsAdapter(private val newsList: List<NewsItem>) :
+class NewsAdapter(private val newsList: List<NewsItem>,
+    private val onItemClick: (NewsItem) -> Unit) :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -28,7 +29,6 @@ class NewsAdapter(private val newsList: List<NewsItem>) :
         val newsItem = newsList[position]
         holder.titleTextView.text = newsItem.title
         holder.abstractTextView.text = newsItem.abstract
-
         holder.dateTextView.text = formatDate(newsItem.published_date)
 
         val highResImage = newsItem.multimedia?.find { it.format == "Large" }?.url
@@ -48,6 +48,11 @@ class NewsAdapter(private val newsList: List<NewsItem>) :
             .placeholder(R.drawable.ic_launcher_background) // Imagen predeterminada
             .error(R.drawable.error) // Imagen de error
             .into(holder.imageView)
+
+        //Click en la noticia
+        holder.itemView.setOnClickListener{
+            onItemClick(newsItem)
+        }
 
 
     }

@@ -12,8 +12,13 @@
         android:orderInCategory="101"
         android:showAsAction="never" />
     <item
+        android:id="@+id/action_mynews"
+        android:title="Mis noticias"
+        android:orderInCategory="102"
+        android:showAsAction="never" />
+    <item
         android:id="@+id/action_logout"
         android:title="Cerrar sesión"
-        android:orderInCategory="102"
+        android:orderInCategory="103"
         android:showAsAction="never" />
 </menu>

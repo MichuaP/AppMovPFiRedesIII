@@ -6,7 +6,7 @@
         <bitmap
             android:src="@drawable/fashion"
             android:tileMode="clamp"
-            android:gravity="center|clip_horizontal" />
+            android:gravity="center_horizontal"/>
     </item>
     <item>
         <shape>

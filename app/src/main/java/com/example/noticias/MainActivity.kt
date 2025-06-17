@@ -1,6 +1,7 @@
 package com.example.noticias
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -63,7 +64,10 @@ class MainActivity : AppCompatActivity() {
                     // Log para inspeccionar específicamente la lista de noticias
                     Log.d("NYT API", "News List: $newsList")
                     // Configurar el adaptador del RecyclerView
-                    adapter = NewsAdapter(newsList)
+                    adapter = NewsAdapter(newsList) { newsItem ->
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(newsItem.url))
+                        startActivity(intent)
+                    }
                     recyclerView.adapter = adapter
                 } else {
                     // Log de error para el cuerpo de la respuesta si no es exitoso
@@ -97,7 +101,13 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_post_news -> {
-                val intent = Intent(this, PostNewsActivity::class.java)
+                val intent = Intent(this, PostNewActivity::class.java)
+                intent.putExtra("username", currentUsername)
+                startActivity(intent)
+                true
+            }
+            R.id.action_mynews -> {
+                val intent = Intent(this, MyNewsActivity::class.java)
                 intent.putExtra("username", currentUsername)
                 startActivity(intent)
                 true

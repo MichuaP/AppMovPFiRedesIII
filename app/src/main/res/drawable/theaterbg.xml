@@ -6,7 +6,8 @@
         <bitmap
             android:src="@drawable/theater"
             android:tileMode="clamp"
-            android:gravity="center" />
+            android:gravity="start"
+            />
     </item>
     <item>
         <shape>

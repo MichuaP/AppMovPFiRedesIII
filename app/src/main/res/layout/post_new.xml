@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Subir noticia"
+        android:textSize="25sp"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:paddingTop="10dp"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="Título"
+                android:layout_marginBottom="10dp"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/etContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="Contenido"
+                android:layout_marginBottom="20dp"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:textSize="20sp"  />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="País"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                />
+
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="156dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Estado"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                />
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="156dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Categoria"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                />
+
+            <Spinner
+                android:id="@+id/spinner4"
+                android:layout_width="156dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Idioma"
+                android:layout_marginBottom="10dp"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/spinner5"
+                android:layout_width="157dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"/>
+
+            <Button
+                android:id="@+id/btnPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/colorAccent"
+                android:text="Publicar" />
+        </LinearLayout>
+
+</LinearLayout>

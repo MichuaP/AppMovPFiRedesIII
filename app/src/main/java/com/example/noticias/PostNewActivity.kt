@@ -1,6 +1,5 @@
 package com.example.noticias
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,8 +10,6 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -26,28 +23,60 @@ import java.io.IOException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class PostNewsActivity : AppCompatActivity() {
-
+class PostNewActivity : AppCompatActivity(){
     private lateinit var etTitle: EditText
     private lateinit var etContent: EditText
-    private lateinit var etLugar: EditText
     private lateinit var btnPost: Button
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var postAdapter: PostAdapter
     private lateinit var spCategoria: Spinner
     private lateinit var spIdioma: Spinner
+    private lateinit var spPais: Spinner
+    private lateinit var spEstado: Spinner
     private var currentUsername: String = ""
     private var currentIdUser: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_post_news)
+        setContentView(R.layout.post_new)
 
         etTitle = findViewById(R.id.etTitle)
         etContent = findViewById(R.id.etContent)
         btnPost = findViewById(R.id.btnPost)
-        recyclerView = findViewById(R.id.recyclerView)
-        etLugar = findViewById(R.id.etLugar)
+
+        //Pais
+        spPais = findViewById(R.id.spinner1)
+        val dataPais = listOf("Mexico","USA","España")
+        val adapter0 = ArrayAdapter(this, android.R.layout.simple_spinner_item, dataPais)
+        adapter0.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spPais.adapter = adapter0
+
+        spPais.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                // Obtener el valor seleccionado
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                Toast.makeText(this@PostNewActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Acción cuando no se selecciona nada
+            }
+        }
+
+        //Estado
+        spEstado = findViewById(R.id.spinner2)
+        val dataEstado = listOf("Arte", "Negocios", "Moda", "Comida","Salud","Hogar","Películas","Política","Ciencia","Deportes","Tecnología","Teatro","Viajes","Mundo")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, dataEstado)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spEstado.adapter = adapter
+
+        spEstado.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                // Obtener el valor seleccionado
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                Toast.makeText(this@PostNewActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Acción cuando no se selecciona nada
+            }
+        }
 
         //Categoria
         spCategoria = findViewById(R.id.spinner4)
@@ -60,7 +89,7 @@ class PostNewsActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 // Obtener el valor seleccionado
                 val selectedItem = parent.getItemAtPosition(position).toString()
-                Toast.makeText(this@PostNewsActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@PostNewActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -69,7 +98,7 @@ class PostNewsActivity : AppCompatActivity() {
         }
 
         //Idioma
-        spIdioma = findViewById(R.id.spinner)
+        spIdioma = findViewById(R.id.spinner5)
         val dataId = listOf("Español", "Inglés")
         val adapter2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, dataId)
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -79,7 +108,7 @@ class PostNewsActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 // Obtener el valor seleccionado
                 val selectedItem = parent.getItemAtPosition(position).toString()
-                Toast.makeText(this@PostNewsActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@PostNewActivity, "Seleccionaste: $selectedItem", Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -92,20 +121,18 @@ class PostNewsActivity : AppCompatActivity() {
         //Obtener id del usuario
         currentIdUser = SaveSharedPreference.getIdUsuario(this)
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        loadPosts(currentIdUser)
-
         btnPost.setOnClickListener {
             val currentDate = LocalDate.now()
             val formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
             val title = etTitle.text.toString()
             val content = etContent.text.toString()
-            val lugar = etLugar.text.toString()
+            val pais = spPais.selectedItemPosition+1
+            val estado = spEstado.selectedItemPosition+1
             val categoria = spCategoria.selectedItemPosition+1
             val idioma = spIdioma.selectedItemPosition+1
             val imagen = "/img/default3.jpg"
 
-            if (title.isEmpty() || content.isEmpty() || lugar.isEmpty()) {
+            if (title.isEmpty() || content.isEmpty()) {
                 Toast.makeText(this, "Por favor complete todos los campos", Toast.LENGTH_SHORT).show()
             } else {
                 val client = OkHttpClient()
@@ -117,9 +144,8 @@ class PostNewsActivity : AppCompatActivity() {
                     put("fechaPublic", formattedDate)
                     put("idCategoria", categoria)
                     put("idIdioma", idioma)
-                    put("idPais", 1)
-                    put("idEstado", 1)
-                    put("lugar", lugar)
+                    put("idPais", pais)
+                    put("idEstado", estado)
                     put("idUser", currentIdUser)
                     put("imagen", imagen)
                 }
@@ -138,7 +164,7 @@ class PostNewsActivity : AppCompatActivity() {
                     override fun onFailure(call: Call, e: IOException) {
                         e.printStackTrace()
                         runOnUiThread {
-                            Toast.makeText(this@PostNewsActivity, "Error de conexión: ${e.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@PostNewActivity, "Error de conexión: ${e.message}", Toast.LENGTH_SHORT).show()
                             Log.d("POSTS", "ERROR" + e.message)
                         }
                     }
@@ -146,89 +172,24 @@ class PostNewsActivity : AppCompatActivity() {
                     override fun onResponse(call: Call, response: Response) {
                         if (response.isSuccessful) {
                             runOnUiThread {
-                                Toast.makeText(this@PostNewsActivity, "Noticia subida con éxito", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@PostNewActivity, "Noticia subida con éxito", Toast.LENGTH_SHORT).show()
                                 Log.d("POSTS", "EXITO" )
                                 // Limpiar los campos
                                 etTitle.setText("")
                                 etContent.setText("")
-                                etLugar.setText("")
+                                spPais.setSelection(0)
+                                spEstado.setSelection(0)
                                 spCategoria.setSelection(0)
                                 spIdioma.setSelection(0)
-                                loadPosts(currentIdUser)
                             }
                         } else {
                             runOnUiThread {
-                                Toast.makeText(this@PostNewsActivity, "Error al subir la noticia", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@PostNewActivity, "Error al subir la noticia", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
                 })
             }
         }
-    }
-
-    //cargar mis post desde api
-    private fun loadPosts(idUs: Int) {
-        val client = OkHttpClient()
-
-        // Construir la URL con el parámetro idUsuario
-        val url = "http://192.168.1.82:3000/myNews?idUsuario=$idUs"
-
-        // Construir la solicitud
-        val request = Request.Builder()
-            .url(url)
-            .get()
-            .build()
-
-        // Ejecutar la solicitud en un hilo de fondo
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-                runOnUiThread {
-                    Toast.makeText(this@PostNewsActivity, "Error de conexión: ${e.message}", Toast.LENGTH_SHORT).show()
-                    Log.d("POSTS", "ERROR" + e.message)
-                }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!it.isSuccessful) {
-                        runOnUiThread {
-                            Toast.makeText(this@PostNewsActivity, "Error: ${it.code}", Toast.LENGTH_SHORT).show()
-                        }
-                        return
-                    }
-
-                    val responseData = it.body?.string()
-                    if (!responseData.isNullOrEmpty()) {
-                        // Parsear el JSON como un array
-                        val noticiasArray = JSONArray(responseData)
-                        val posts : MutableList<Post> = mutableListOf()
-
-                        for (i in 0 until noticiasArray.length()) {
-                            val noticia = noticiasArray.getJSONObject(i)
-                            posts.add(
-                                Post(
-                                    titulo = noticia.getString("Titulo"),
-                                    contenido = noticia.getString("Contenido"),
-                                    pais = noticia.getString("Pais"),
-                                    categoria = noticia.getString("Categoria"),
-                                    idioma = noticia.getString("Idioma")
-                                )
-                            )
-                        }
-                        runOnUiThread {
-                            postAdapter = PostAdapter(posts.toList())
-                            recyclerView.adapter = postAdapter
-                        }
-
-                    } else {
-                        runOnUiThread {
-                            Toast.makeText(this@PostNewsActivity, "Respuesta vacía del servidor.", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            }
-        })
     }
 }
